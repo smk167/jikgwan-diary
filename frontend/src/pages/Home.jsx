@@ -5,21 +5,23 @@ import RecordCard from '../components/ui/RecordCard';
 import RecordForm from '../components/ui/RecordForm';
 import EmptyState from '../components/common/EmptyState';
 import { MOCK_RECORDS, KBO_TEAMS } from '../data/mockData';
-import { createRecord, uploadPhotos } from '../api';
+import { createRecord } from '../api';
+// [PHOTOS DISABLED] import { uploadPhotos } from '../api';
 import './Home.css';
 
 function QuickWriteCard({ teams, onSaved }) {
   const [open, setOpen] = useState(true);
   const [formKey, setFormKey] = useState(0);
 
-  async function handleSubmit(submitData, photos, _deletedIds) {
-    const res = await createRecord(submitData);
-    const recordId = res.data.id;
-    if (photos.length > 0) {
-      const fd = new FormData();
-      photos.forEach(p => fd.append('photos', p));
-      await uploadPhotos(recordId, fd);
-    }
+  async function handleSubmit(submitData) {
+    await createRecord(submitData);
+    // [PHOTOS DISABLED]
+    // const recordId = res.data.id;
+    // if (photos.length > 0) {
+    //   const fd = new FormData();
+    //   photos.forEach(p => fd.append('photos', p));
+    //   await uploadPhotos(recordId, fd);
+    // }
     setFormKey(k => k + 1);
     onSaved?.();
   }
