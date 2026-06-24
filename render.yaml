@@ -3,7 +3,7 @@ services:
     name: jikgwan-diary-api
     runtime: node
     plan: free
-    buildCommand: (cd frontend && npm install && npm run build) && (cd backend && npm install) && cp -r frontend/dist backend/public
+    buildCommand: (cd frontend && npm install --include=dev && npm run build) && (cd backend && npm install) && cp -r frontend/dist backend/public
     startCommand: node backend/src/index.js
     envVars:
       - key: TURSO_DATABASE_URL
