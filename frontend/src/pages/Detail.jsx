@@ -89,6 +89,7 @@ export default function Detail() {
           </div>
         )}
 
+        {/* [PHOTOS DISABLED]
         {record.photos?.length > 0 && (
           <div className="detail-section">
             <h3>사진</h3>
@@ -99,6 +100,7 @@ export default function Detail() {
             </div>
           </div>
         )}
+        */}
       </div>
     </div>
   );

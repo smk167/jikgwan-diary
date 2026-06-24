@@ -1,9 +1,9 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react'; // [PHOTOS DISABLED] useRef
 import { KBO_STADIUMS, COMPANION_OPTIONS } from '../../data/mockData';
 import SeatMapModal from './SeatMapModal';
 import './RecordForm.css';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+// [PHOTOS DISABLED] const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 export default function RecordForm({ teams = [], initialValues = {}, initialPhotos = [], isEdit = false, onSubmit, onCancel }) {
   const [form, setForm] = useState({
@@ -23,14 +23,15 @@ export default function RecordForm({ teams = [], initialValues = {}, initialPhot
   const [seatDetail, setSeatDetail] = useState('');
   const [seatStep, setSeatStep] = useState({ base: '', sub: '' });
   const [seatMapOpen, setSeatMapOpen] = useState(false);
-  const [existingPhotos, setExistingPhotos] = useState(initialPhotos);
-  const [deletedPhotoIds, setDeletedPhotoIds] = useState([]);
-  const [photos, setPhotos] = useState([]);
-  const [dragOver, setDragOver] = useState(false);
+  // [PHOTOS DISABLED]
+  // const [existingPhotos, setExistingPhotos] = useState(initialPhotos);
+  // const [deletedPhotoIds, setDeletedPhotoIds] = useState([]);
+  // const [photos, setPhotos] = useState([]);
+  // const [dragOver, setDragOver] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const dropRef = useRef(null);
+  // [PHOTOS DISABLED] const dropRef = useRef(null);
 
-  const totalPhotoCount = existingPhotos.length + photos.length;
+  // [PHOTOS DISABLED] const totalPhotoCount = existingPhotos.length + photos.length;
 
   function set(field, value) {
     setForm(prev => {
@@ -46,16 +47,17 @@ export default function RecordForm({ teams = [], initialValues = {}, initialPhot
     if (field === 'home_team' || field === 'stadium') setSeatStep({ base: '', sub: '' });
   }
 
-  function addFiles(files) {
-    const arr = Array.from(files).filter(f => f.type.startsWith('image/'));
-    if (totalPhotoCount + arr.length > 3) { alert('사진은 최대 3장까지 업로드 가능합니다.'); return; }
-    setPhotos(prev => [...prev, ...arr]);
-  }
+  // [PHOTOS DISABLED]
+  // function addFiles(files) {
+  //   const arr = Array.from(files).filter(f => f.type.startsWith('image/'));
+  //   if (totalPhotoCount + arr.length > 3) { alert('사진은 최대 3장까지 업로드 가능합니다.'); return; }
+  //   setPhotos(prev => [...prev, ...arr]);
+  // }
 
-  function removeExistingPhoto(photoId) {
-    setExistingPhotos(prev => prev.filter(p => p.id !== photoId));
-    setDeletedPhotoIds(prev => [...prev, photoId]);
-  }
+  // function removeExistingPhoto(photoId) {
+  //   setExistingPhotos(prev => prev.filter(p => p.id !== photoId));
+  //   setDeletedPhotoIds(prev => [...prev, photoId]);
+  // }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -67,7 +69,7 @@ export default function RecordForm({ teams = [], initialValues = {}, initialPhot
     try {
       const submitData = { ...form, weather: form.weather.join(' ') };
       if (seatDetail) submitData.seat = form.seat ? `${form.seat} ${seatDetail}` : seatDetail;
-      await onSubmit(submitData, photos, deletedPhotoIds);
+      await onSubmit(submitData, [], []); // [PHOTOS DISABLED] was: (submitData, photos, deletedPhotoIds)
     } catch {
       alert('저장 중 오류가 발생했습니다. 백엔드가 실행 중인지 확인해주세요.');
     } finally {
@@ -298,7 +300,7 @@ export default function RecordForm({ teams = [], initialValues = {}, initialPhot
         />
       </div>
 
-      {/* 사진 업로드 */}
+      {/* [PHOTOS DISABLED]
       <div className="rf-field">
         <label className="rf-label">사진 업로드 (최대 3장)</label>
         <div
@@ -311,41 +313,26 @@ export default function RecordForm({ teams = [], initialValues = {}, initialPhot
           {existingPhotos.map(p => (
             <div key={p.id} className="rf-photo-preview">
               <img src={`${API_BASE}${p.file_path}`} alt="" />
-              <button
-                type="button"
-                className="rf-photo-remove"
-                onClick={() => removeExistingPhoto(p.id)}
-              >×</button>
+              <button type="button" className="rf-photo-remove" onClick={() => removeExistingPhoto(p.id)}>×</button>
             </div>
           ))}
           {photos.map((p, i) => (
             <div key={`new-${i}`} className="rf-photo-preview">
               <img src={URL.createObjectURL(p)} alt="" />
-              <button
-                type="button"
-                className="rf-photo-remove"
-                onClick={() => setPhotos(prev => prev.filter((_, j) => j !== i))}
-              >×</button>
+              <button type="button" className="rf-photo-remove" onClick={() => setPhotos(prev => prev.filter((_, j) => j !== i))}>×</button>
             </div>
           ))}
           {totalPhotoCount < 3 && (
             <label className="rf-photo-add">
               <span className="rf-photo-add-icon">📷</span>
               <span className="rf-photo-add-text">추가하기</span>
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={e => addFiles(e.target.files)}
-                style={{ display: 'none' }}
-              />
+              <input type="file" accept="image/*" multiple onChange={e => addFiles(e.target.files)} style={{ display: 'none' }} />
             </label>
           )}
-          {totalPhotoCount === 0 && (
-            <p className="rf-photo-hint">드래그 앤 드롭 또는 클릭하여 사진 추가</p>
-          )}
+          {totalPhotoCount === 0 && <p className="rf-photo-hint">드래그 앤 드롭 또는 클릭하여 사진 추가</p>}
         </div>
       </div>
+      */}
 
       <SeatMapModal
         open={seatMapOpen}

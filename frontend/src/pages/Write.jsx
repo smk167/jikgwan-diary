@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getKboTeams, createRecord, getRecord, updateRecord, uploadPhotos, deletePhoto } from '../api';
+import { getKboTeams, createRecord, getRecord, updateRecord } from '../api';
+// [PHOTOS DISABLED] import { uploadPhotos, deletePhoto } from '../api';
 import { KBO_TEAMS } from '../data/mockData';
 import RecordForm from '../components/ui/RecordForm';
 import './Write.css';
@@ -12,7 +13,7 @@ export default function Write() {
 
   const [teams, setTeams] = useState(KBO_TEAMS);
   const [initialValues, setInitialValues] = useState(null);
-  const [initialPhotos, setInitialPhotos] = useState([]);
+  // [PHOTOS DISABLED] const [initialPhotos, setInitialPhotos] = useState([]);
 
   useEffect(() => {
     setInitialValues(null);
@@ -39,9 +40,9 @@ export default function Write() {
             seat: d.seat || '',
             companion: d.companion || '',
           });
-          setInitialPhotos(d.photos || []);
+          // [PHOTOS DISABLED] setInitialPhotos(d.photos || []);
         })
-        .catch(() => { setInitialValues({}); setInitialPhotos([]); });
+        .catch(() => { setInitialValues({}); /* [PHOTOS DISABLED] setInitialPhotos([]); */ });
     } else {
       setInitialValues({});
     }
@@ -55,14 +56,15 @@ export default function Write() {
       const res = await createRecord(submitData);
       recordId = res.data.id;
     }
-    if (deletedPhotoIds.length > 0) {
-      await Promise.all(deletedPhotoIds.map(pid => deletePhoto(pid)));
-    }
-    if (newPhotos.length > 0) {
-      const fd = new FormData();
-      newPhotos.forEach(p => fd.append('photos', p));
-      await uploadPhotos(recordId, fd);
-    }
+    // [PHOTOS DISABLED]
+    // if (deletedPhotoIds.length > 0) {
+    //   await Promise.all(deletedPhotoIds.map(pid => deletePhoto(pid)));
+    // }
+    // if (newPhotos.length > 0) {
+    //   const fd = new FormData();
+    //   newPhotos.forEach(p => fd.append('photos', p));
+    //   await uploadPhotos(recordId, fd);
+    // }
     navigate(isEdit ? `/record/${id}` : '/');
   }
 
@@ -82,7 +84,7 @@ export default function Write() {
           key={id || 'new'}
           teams={teams}
           initialValues={initialValues}
-          initialPhotos={initialPhotos}
+          // [PHOTOS DISABLED] initialPhotos={initialPhotos}
           isEdit={isEdit}
           onSubmit={handleSubmit}
           onCancel={() => navigate(-1)}

@@ -10,11 +10,12 @@ export const createRecord = (data) => api.post('/api/records', data);
 export const updateRecord = (id, data) => api.put(`/api/records/${id}`, data);
 export const deleteRecord = (id) => api.delete(`/api/records/${id}`);
 
-export const uploadPhotos = (recordId, formData) =>
-  api.post(`/api/photos/${recordId}`, formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
-export const deletePhoto = (id) => api.delete(`/api/photos/${id}`);
+// [PHOTOS DISABLED]
+// export const uploadPhotos = (recordId, formData) =>
+//   api.post(`/api/photos/${recordId}`, formData, {
+//     headers: { 'Content-Type': 'multipart/form-data' },
+//   });
+// export const deletePhoto = (id) => api.delete(`/api/photos/${id}`);
 
 export const getStats = () => api.get('/api/stats');
 export const getKboTeams = () => api.get('/api/kbo/teams');

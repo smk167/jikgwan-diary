@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: jikgwan-diary-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: TURSO_DATABASE_URL
+        sync: false
+      - key: TURSO_AUTH_TOKEN
+        sync: false
+      - key: NODE_ENV
+        value: production
+
+  - type: static
+    name: jikgwan-diary-web
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://jikgwan-diary-api.onrender.com
