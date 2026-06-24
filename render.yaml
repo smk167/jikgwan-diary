@@ -12,12 +12,3 @@ services:
         sync: false
       - key: NODE_ENV
         value: production
-
-  - type: static
-    name: jikgwan-diary-web
-    rootDir: frontend
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
-    envVars:
-      - key: VITE_API_URL
-        value: https://jikgwan-diary-api.onrender.com
