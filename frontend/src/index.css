@@ -1,0 +1,162 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary: #f9ca42;
+  --primary-light: #fbd96e;
+  --primary-pale: #fef9e7;
+  --accent: #5c8aff;
+  --accent-pale: #eef2ff;
+  --bg: #f1f1e6;
+  --surface: #ffffff;
+  --surface-2: #f5f5ec;
+  --border: #dcdcd0;
+  --border-light: #e8e8de;
+  --text: #142755;
+  --text-secondary: #4a5f82;
+  --text-muted: #9aaabf;
+  --win: #3fb950;
+  --win-bg: #edfaef;
+  --loss: #e5434a;
+  --loss-bg: #fdecea;
+  --draw: #9aaabf;
+  --draw-bg: #f1f1e6;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --shadow: 0 2px 12px rgba(20, 39, 85, 0.08);
+  --shadow-md: 0 4px 24px rgba(20, 39, 85, 0.12);
+  --shadow-hover: 0 8px 32px rgba(20, 39, 85, 0.16);
+  --sidebar-w: 220px;
+  --right-w: 300px;
+  --transition: 0.18s ease;
+}
+
+[data-theme="dark"] {
+  --primary: #f9ca42;
+  --primary-light: #fbd96e;
+  --primary-pale: #2e2300;
+  --accent: #4a9eff;
+  --accent-pale: #1a2640;
+  --bg: #121212;
+  --surface: #1e1e1e;
+  --surface-2: #282828;
+  --border: #3a3a3a;
+  --border-light: #2e2e2e;
+  --text: #f5f5f5;
+  --text-secondary: #b3b3b3;
+  --text-muted: #737373;
+  --win: #4ade80;
+  --win-bg: #1a2e1a;
+  --loss: #f87171;
+  --loss-bg: #2e1a1a;
+  --draw: #8a8a8a;
+  --draw-bg: #282828;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.6);
+  --shadow-hover: 0 8px 32px rgba(249, 202, 66, 0.2);
+}
+
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(92, 138, 255, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(249, 202, 66, 0.03) 0%, transparent 50%);
+  color: var(--text);
+  min-height: 100dvh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: 0.9375rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 스크롤바 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+
+/* 공통 카드 */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow);
+}
+
+/* 공통 버튼 */
+.btn-primary {
+  background: var(--primary);
+  color: #142755;
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1.25rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+.btn-primary:hover {
+  background: #fbd96e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(249, 202, 66, 0.35);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-ghost {
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1.25rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background var(--transition), color var(--transition);
+}
+.btn-ghost:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+/* 결과 뱃지 */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.badge-win { background: var(--win-bg); color: #16a34a; }
+.badge-loss { background: var(--loss-bg); color: #dc2626; }
+.badge-draw { background: var(--draw-bg); color: #6b7280; }

@@ -1,0 +1,264 @@
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.rp-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text);
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border-light);
+}
+.rp-section-icon {
+  font-size: 1rem;
+}
+
+.rp-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+/* 총 직관 횟수 */
+.rp-total-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.rp-total-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.rp-total-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.rp-total-count {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+.rp-total-num {
+  font-size: 2.75rem;
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1;
+}
+.rp-total-unit {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.rp-total-mascot {
+  font-size: 2.25rem;
+  opacity: 0.7;
+}
+
+/* 승률 차트 */
+.rp-winrate-wrap {
+  position: relative;
+}
+
+/* 승/패 행 */
+.rp-wl-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-light);
+}
+.rp-wl-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+.rp-wl-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border-light);
+}
+.rp-wl-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.rp-wl-dot--win  { background: var(--win); }
+.rp-wl-dot--loss { background: var(--loss); }
+.rp-wl-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+.rp-wl-val {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* 통계 리스트 */
+.rp-stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rp-stat-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.rp-stat-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+.rp-stat-icon--stadium { background: #fff4e0; }
+.rp-stat-icon--team    { background: #e8f5e9; }
+.rp-stat-icon--streak  { background: #fff0f0; }
+
+.rp-stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+.rp-stat-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.rp-stat-value {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rp-stat-sub {
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+.rp-stat-streak-val {
+  color: var(--loss);
+}
+.rp-stat-streak .rp-stat-icon--streak .rp-stat-streak-val {
+  color: #e5434a;
+}
+
+/* 더보기 버튼 */
+.rp-more-btn {
+  background: var(--surface);
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-align: center;
+  transition: background var(--transition), border-color var(--transition);
+}
+.rp-more-btn:hover {
+  background: var(--primary-pale);
+  border-color: var(--primary);
+}
+
+/* 한마디 카드 */
+.rp-quote-card {
+  background: var(--accent-pale);
+  border-color: var(--accent);
+}
+.rp-quote-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.625rem;
+}
+.rp-quote-mascot {
+  font-size: 1.3rem;
+}
+.rp-quote-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+.rp-quote-text {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+[data-theme="dark"] .rp-quote-card {
+  background: #1e1e1e;
+  border-color: #3a3a3a;
+}
+
+/* WinRateChart 관련 (index.css에서 이동) */
+.winrate-chart {
+  position: relative;
+}
+.winrate-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  text-align: center;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.winrate-value {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--text);
+}
+.winrate-label {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+.winrate-legend {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+.winrate-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.winrate-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.winrate-empty {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}

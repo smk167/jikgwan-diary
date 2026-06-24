@@ -1,0 +1,163 @@
+.detail {
+  padding-bottom: 24px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.edit-btn, .delete-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.edit-btn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.delete-btn {
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  color: var(--loss);
+}
+
+.detail-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-header-card {
+  background: var(--primary);
+  color: white;
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+}
+
+.detail-date {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin-bottom: 12px;
+}
+
+.detail-teams {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.detail-team {
+  font-size: 1.2rem;
+  font-weight: 800;
+  flex: 1;
+  align-self: center;
+}
+
+.detail-team.home { text-align: right; }
+.detail-team.away { text-align: left; opacity: 0.8; }
+
+.detail-result-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.detail-result {
+  font-size: 1.6rem;
+  font-weight: 900;
+}
+
+.detail-result.badge-win { color: #68d391; }
+.detail-result.badge-loss { color: #fc8181; }
+.detail-result.badge-draw { color: #e2e8f0; }
+
+.vs-text {
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
+
+.detail-meta {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  font-size: 0.85rem;
+  opacity: 0.9;
+  flex-wrap: wrap;
+}
+
+.detail-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.detail-section h3 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.detail-info-row {
+  display: flex;
+  gap: 20px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.detail-comment {
+  font-size: 1rem;
+  color: var(--text);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.detail-weather {
+  font-size: 1.4rem;
+  letter-spacing: 4px;
+}
+
+.detail-memo {
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.detail-photos {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.detail-photos img {
+  width: 100%;
+  max-width: calc(33.333% - 6px);
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}

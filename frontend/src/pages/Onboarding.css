@@ -1,0 +1,150 @@
+.onboarding {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 1.5rem;
+}
+
+.ob-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-md);
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.ob-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.ob-ball {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.ob-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.03em;
+}
+
+.ob-sub {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.ob-question {
+  text-align: center;
+}
+
+.ob-q-label {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.ob-q-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.ob-team-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+
+.ob-team-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.625rem 0.25rem;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.ob-team-btn:hover {
+  border-color: var(--border);
+  background: var(--surface-2);
+  transform: translateY(-2px);
+}
+.ob-team-btn.selected {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.ob-team-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ob-team-name {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.ob-selected-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  animation: fadeIn 0.2s ease;
+}
+.ob-selected-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.ob-selected-text {
+  font-size: 0.875rem;
+  color: var(--text);
+}
+
+.ob-confirm-btn {
+  background: var(--primary);
+  color: #142755;
+  border-radius: var(--radius-sm);
+  padding: 0.875rem;
+  font-size: 1rem;
+  font-weight: 800;
+  width: 100%;
+  transition: all var(--transition);
+}
+.ob-confirm-btn:hover:not(:disabled) {
+  background: var(--primary-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(249, 202, 66, 0.35);
+}
+.ob-confirm-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

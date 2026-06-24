@@ -1,0 +1,297 @@
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.stats-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stats-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.stats-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 4rem 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+/* 개인화 하이라이트 */
+.stats-highlight {
+  background: linear-gradient(135deg, var(--primary-pale) 0%, var(--accent-pale) 100%);
+  border: 1.5px solid var(--primary-light);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.375rem;
+}
+.stats-highlight-emoji {
+  font-size: 1.75rem;
+}
+.stats-highlight-text {
+  font-size: 0.9rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+.stats-highlight-rate {
+  font-size: 1.2rem;
+  color: var(--primary);
+}
+.stats-highlight-sub {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* 요약 그리드 */
+.stats-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+.stats-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.stats-card-primary {
+  background: var(--primary-pale);
+  border-color: var(--primary-light);
+}
+.stats-card-label {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+.stats-card-value {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1;
+}
+.stats-card-unit {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-left: 2px;
+}
+.stats-win-color {
+  color: #16a34a;
+}
+
+/* 섹션 */
+.stats-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+.stats-section-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.stats-chart-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+/* 도넛 차트 */
+.stats-donut-wrap {
+  position: relative;
+}
+.stats-donut-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+.stats-donut-rate {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1;
+}
+.stats-donut-label {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.stats-result-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-light);
+}
+.stats-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+.stats-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.stats-legend-name {
+  font-weight: 700;
+  width: 20px;
+}
+.stats-legend-val {
+  color: var(--text-secondary);
+  margin-left: auto;
+}
+.stats-legend-pct {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* 바 리스트 */
+.stats-bar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+.stats-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+.stats-bar-label {
+  font-size: 0.78rem;
+  color: var(--text);
+  min-width: 100px;
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.stats-bar-track {
+  flex: 1;
+  height: 10px;
+  background: var(--surface-2);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.stats-bar-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 999px;
+  transition: width 0.6s ease;
+}
+.stats-bar-win {
+  background: #4ade80;
+}
+.stats-bar-count {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  min-width: 32px;
+  text-align: right;
+}
+
+/* 연도별 승률 */
+.stats-year-tabs {
+  display: flex;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.stats-year-tab {
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.stats-year-tab.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.stats-year-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.stats-year-headline {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.stats-year-total {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.stats-year-rate {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #4ade80;
+}
+.stats-year-wld {
+  display: flex;
+  gap: 0.5rem;
+}
+.stats-year-wld-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+}
+.stats-year-wld-num {
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+.stats-year-wld-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
+}
+.stats-year-win .stats-year-wld-num { color: #4ade80; }
+.stats-year-loss .stats-year-wld-num { color: #f87171; }
+.stats-year-draw .stats-year-wld-num { color: var(--text-secondary); }
+.stats-year-bar {
+  height: 8px;
+}
+
+@media (max-width: 480px) {
+  .stats-summary-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
