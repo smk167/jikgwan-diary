@@ -1,7 +1,9 @@
 import { serve } from '@hono/node-server';
-// [PHOTOS DISABLED] import { serveStatic } from '@hono/node-server/serve-static';
+import { serveStatic } from '@hono/node-server/serve-static';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
+import fs from 'fs';
+import path from 'path';
 import { initDb } from './db/client.js';
 import { KBO_TEAMS } from './db/kbo.js';
 import records from './routes/records.js';
@@ -26,6 +28,18 @@ app.route('/api/stats', stats);
 app.get('/api/kbo/teams', (c) => c.json(KBO_TEAMS));
 
 // [PHOTOS DISABLED] app.use('/uploads/*', serveStatic({ root: './' }));
+
+// 프론트엔드 정적 파일 서빙
+app.use('/*', serveStatic({ root: './public' }));
+
+// React Router SPA 폴백 - 파일 없으면 index.html 반환
+app.get('/*', (c) => {
+  const indexPath = path.join(process.cwd(), 'public', 'index.html');
+  if (fs.existsSync(indexPath)) {
+    return c.html(fs.readFileSync(indexPath, 'utf-8'));
+  }
+  return c.notFound();
+});
 
 const PORT = process.env.PORT || 3000;
 

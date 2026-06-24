@@ -3,9 +3,8 @@ services:
     name: jikgwan-diary-api
     runtime: node
     plan: free
-    rootDir: backend
-    buildCommand: npm install
-    startCommand: npm start
+    buildCommand: npm install --prefix frontend && npm run build --prefix frontend && npm install --prefix backend && cp -r frontend/dist backend/public
+    startCommand: node backend/src/index.js
     envVars:
       - key: TURSO_DATABASE_URL
         sync: false
