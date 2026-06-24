@@ -3,8 +3,6 @@
   grid-template-columns: var(--sidebar-w) 1fr var(--right-w);
   grid-template-rows: 1fr;
   min-height: 100dvh;
-  max-width: 1400px;
-  margin: 0 auto;
 }
 
 .app-main {
