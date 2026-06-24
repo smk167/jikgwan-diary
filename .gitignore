@@ -9,6 +9,7 @@ node_modules/
 # 빌드 결과물
 dist/
 build/
+public/
 
 # 로컬 DB
 *.db
@@ -16,8 +17,8 @@ build/
 *.db-wal
 
 # 사진 업로드
-backend/uploads/*
-!backend/uploads/.gitkeep
+uploads/*
+!uploads/.gitkeep
 
 # 로그
 *.log
