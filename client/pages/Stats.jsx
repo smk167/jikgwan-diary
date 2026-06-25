@@ -4,8 +4,10 @@ import {
   PieChart, Pie,
 } from 'recharts';
 import { getStats } from '../api';
-import { MOCK_STATS, MOOD_OPTIONS } from '../data/mockData';
+import EmptyState from '../components/common/EmptyState';
 import './Stats.css';
+
+const EMPTY_STATS = { total: 0, wins: 0, losses: 0, draws: 0 };
 
 export default function Stats() {
   const [stats, setStats] = useState(null);
@@ -14,11 +16,8 @@ export default function Stats() {
 
   useEffect(() => {
     getStats()
-      .then(r => {
-        if (r.data && r.data.total > 0) setStats(r.data);
-        else setStats(MOCK_STATS);
-      })
-      .catch(() => setStats(MOCK_STATS))
+      .then(r => setStats(r.data && r.data.total > 0 ? r.data : EMPTY_STATS))
+      .catch(() => setStats(EMPTY_STATS))
       .finally(() => setLoading(false));
   }, []);
 
@@ -33,12 +32,27 @@ export default function Stats() {
     );
   }
 
-  const s = stats || MOCK_STATS;
+  const s = stats || EMPTY_STATS;
   const total = s.total || 0;
   const wins = s.wins || 0;
   const losses = s.losses || 0;
   const draws = s.draws || 0;
   const winRate = total > 0 ? ((wins / total) * 100).toFixed(1) : 0;
+
+  if (total === 0) {
+    return (
+      <div className="stats">
+        <div className="stats-topbar">
+          <h2 className="stats-title">📊 내 직관 통계</h2>
+        </div>
+        <EmptyState
+          emoji="📊"
+          title="아직 통계가 없어요"
+          description="직관 기록을 남기면 나만의 통계가 만들어져요!"
+        />
+      </div>
+    );
+  }
 
   const resultData = [
     { name: '승', value: wins, color: '#4ade80' },
@@ -236,27 +250,6 @@ export default function Stats() {
         </div>
       )}
 
-      {/* 더미 데이터 fallback stats */}
-      {stadiumData.length === 0 && (
-        <>
-          <div className="stats-section">
-            <h3 className="stats-section-title">🏟️ 구장별 방문</h3>
-            <div className="stats-chart-card">
-              <div className="stats-bar-list">
-                {[{ name: '잠실야구장', count: 12 }, { name: '고척 스카이돔', count: 5 }, { name: '인천 SSG 랜더스 필드', count: 4 }].map((s, i) => (
-                  <div key={i} className="stats-bar-item">
-                    <span className="stats-bar-label">{s.name}</span>
-                    <div className="stats-bar-track">
-                      <div className="stats-bar-fill" style={{ width: `${(s.count / 12) * 100}%` }} />
-                    </div>
-                    <span className="stats-bar-count">{s.count}회</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </>
-      )}
     </div>
   );
 }

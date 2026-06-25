@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getRecords } from '../api';
-import { KBO_STADIUMS, MOCK_RECORDS } from '../data/mockData';
+import { KBO_STADIUMS } from '../data/mockData';
 import './Stadiums.css';
 
 const STADIUM_INFO = {
@@ -23,7 +23,7 @@ export default function Stadiums() {
   useEffect(() => {
     getRecords()
       .then(r => {
-        const records = r.data || MOCK_RECORDS;
+        const records = r.data || [];
         const counts = {};
         records.forEach(rec => {
           if (rec.stadium) {
@@ -34,12 +34,8 @@ export default function Stadiums() {
         setVisited(new Set(Object.keys(counts)));
       })
       .catch(() => {
-        const counts = {};
-        MOCK_RECORDS.forEach(rec => {
-          counts[rec.stadium] = (counts[rec.stadium] || 0) + 1;
-        });
-        setVisitCounts(counts);
-        setVisited(new Set(Object.keys(counts)));
+        setVisitCounts({});
+        setVisited(new Set());
       });
   }, []);
 

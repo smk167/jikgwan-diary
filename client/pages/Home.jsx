@@ -4,7 +4,7 @@ import { getRecords } from '../api';
 import RecordCard from '../components/ui/RecordCard';
 import RecordForm from '../components/ui/RecordForm';
 import EmptyState from '../components/common/EmptyState';
-import { MOCK_RECORDS, KBO_TEAMS } from '../data/mockData';
+import { KBO_TEAMS } from '../data/mockData';
 import { createRecord } from '../api';
 // [PHOTOS DISABLED] import { uploadPhotos } from '../api';
 import './Home.css';
@@ -56,7 +56,6 @@ export default function Home() {
   const [filterYear, setFilterYear] = useState('');
   const [sortOrder, setSortOrder] = useState('latest');
   const [loading, setLoading] = useState(true);
-  const [useMock, setUseMock] = useState(false);
   const [teams] = useState(KBO_TEAMS);
 
   const currentYear = new Date().getFullYear();
@@ -67,25 +66,9 @@ export default function Home() {
     const params = {};
     if (filterTeam) params.team = filterTeam;
     if (filterYear) params.year = filterYear;
-    const isFiltered = Object.keys(params).length > 0;
     getRecords(params)
-      .then(r => {
-        const data = r.data || [];
-        if (data.length === 0 && !isFiltered) {
-          setRecords(MOCK_RECORDS);
-          setUseMock(true);
-        } else {
-          setRecords(data);
-          setUseMock(false);
-        }
-      })
-      .catch(() => {
-        let mock = MOCK_RECORDS;
-        if (params.year) mock = mock.filter(r => r.date?.startsWith(params.year));
-        if (params.team) mock = mock.filter(r => [r.home_team, r.away_team, r.my_team].includes(params.team));
-        setRecords(mock);
-        setUseMock(true);
-      })
+      .then(r => setRecords(r.data || []))
+      .catch(() => setRecords([]))
       .finally(() => setLoading(false));
   }
 
@@ -105,7 +88,6 @@ export default function Home() {
         <div className="home-topbar">
           <h2 className="home-title">직관 기록 목록</h2>
           <div className="home-topbar-right">
-            {useMock && <span className="home-mock-badge">더미 데이터</span>}
             <select
               className="home-select"
               value={sortOrder}

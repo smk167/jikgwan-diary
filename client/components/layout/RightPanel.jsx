@@ -2,8 +2,17 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import WinRateChart from '../ui/WinRateChart';
 import { getStats } from '../../api';
-import { MOCK_STATS } from '../../data/mockData';
 import './RightPanel.css';
+
+const EMPTY_STATS = {
+  total: 0,
+  wins: 0,
+  losses: 0,
+  draws: 0,
+  winRate: 0,
+  homeGames: 0,
+  awayGames: 0,
+};
 
 const QUOTES = [
   '야구에 취하면 살이 빠진다.\n기록은 그 추억을\n더 오래 기억하게 해줘!',
@@ -18,7 +27,7 @@ const QUOTES = [
 
 export default function RightPanel() {
   const navigate = useNavigate();
-  const [stats, setStats] = useState(MOCK_STATS);
+  const [stats, setStats] = useState(EMPTY_STATS);
   const [quote] = useState(() => QUOTES[Math.floor(Math.random() * QUOTES.length)]);
 
   useEffect(() => {

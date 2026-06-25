@@ -7,6 +7,7 @@ import Write from './pages/Write';
 import Detail from './pages/Detail';
 import Stats from './pages/Stats';
 import Stadiums from './pages/Stadiums';
+import Profile from './pages/Profile';
 import Onboarding from './pages/Onboarding';
 import './App.css';
 
@@ -40,7 +41,7 @@ function AppLayout() {
         <Route path="/stats" element={<Stats />} />
         <Route path="/stadiums" element={<Stadiums />} />
         <Route path="/group" element={<GroupPlaceholder />} />
-        <Route path="/profile" element={<ProfilePlaceholder />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </AppShell>
   );
@@ -70,16 +71,6 @@ function GroupPlaceholder() {
       <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>👥</div>
       <h2 style={{ marginBottom: '0.5rem', color: 'var(--text)' }}>그룹 기능</h2>
       <p>친구와 함께한 직관 기록을 공유하는 기능이 곧 출시됩니다!</p>
-    </div>
-  );
-}
-
-function ProfilePlaceholder() {
-  return (
-    <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
-      <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>👤</div>
-      <h2 style={{ marginBottom: '0.5rem', color: 'var(--text)' }}>내 정보</h2>
-      <p>로그인 기능이 추가되면 사용할 수 있습니다.</p>
     </div>
   );
 }

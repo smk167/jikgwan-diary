@@ -67,15 +67,6 @@
   color: var(--text);
 }
 
-.home-mock-badge {
-  font-size: 0.68rem;
-  background: var(--primary-pale);
-  color: var(--text-secondary);
-  border-radius: 999px;
-  padding: 0.15rem 0.55rem;
-  font-weight: 600;
-}
-
 .home-select {
   background: var(--surface);
   border: 1px solid var(--border);
