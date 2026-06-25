@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getRecords } from '../api';
 import RecordCard from '../components/ui/RecordCard';
 import RecordForm from '../components/ui/RecordForm';
@@ -48,15 +48,19 @@ function QuickWriteCard({ teams, onSaved }) {
 }
 
 export default function Home() {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
-  const showForm = pathname === '/';
+  const navigate = useNavigate();
+  const isHome = pathname === '/';
+  const showForm = isHome;
   const [records, setRecords] = useState([]);
   const [filterTeam, setFilterTeam] = useState('');
   const [filterYear, setFilterYear] = useState('');
   const [sortOrder, setSortOrder] = useState('latest');
   const [loading, setLoading] = useState(true);
   const [teams] = useState(KBO_TEAMS);
+  const HOME_PREVIEW = 5;
+  const PAGE_SIZE = 10;
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
@@ -74,11 +78,19 @@ export default function Home() {
 
   useEffect(() => { fetchRecords(); }, [filterTeam, filterYear]);
 
+  // 필터/정렬/페이지 전환 시 표시 개수 초기화
+  useEffect(() => { setVisibleCount(PAGE_SIZE); }, [filterTeam, filterYear, sortOrder, pathname]);
+
   const sorted = [...records].sort((a, b) =>
     sortOrder === 'latest'
       ? new Date(b.date) - new Date(a.date)
       : new Date(a.date) - new Date(b.date)
   );
+
+  // 홈: 최근 HOME_PREVIEW건만 미리보기 → 기록이 있으면 항상 '더 불러오기'(목록 페이지로 이동)
+  // 목록 페이지: PAGE_SIZE씩 늘려 보여주고, 더 없으면 버튼 숨김
+  const visibleRecords = isHome ? sorted.slice(0, HOME_PREVIEW) : sorted.slice(0, visibleCount);
+  const hasMore = isHome ? sorted.length > 0 : visibleCount < sorted.length;
 
   return (
     <div className="home">
@@ -135,12 +147,17 @@ export default function Home() {
           />
         ) : (
           <div className="home-record-list">
-            {sorted.map(r => (
+            {visibleRecords.map(r => (
               <RecordCard key={`${pathname}-${r.id}`} record={r} onDelete={fetchRecords} />
             ))}
-            <button className="home-more-btn" onClick={() => navigate('/list')}>
-              더 불러오기 ∨
-            </button>
+            {hasMore && (
+              <button
+                className="home-more-btn"
+                onClick={() => isHome ? navigate('/records') : setVisibleCount(c => c + PAGE_SIZE)}
+              >
+                더 불러오기 ∨
+              </button>
+            )}
           </div>
         )}
       </div>

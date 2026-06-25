@@ -15,10 +15,15 @@ export default function Stats() {
   const [selectedYear, setSelectedYear] = useState(null);
 
   useEffect(() => {
-    getStats()
-      .then(r => setStats(r.data && r.data.total > 0 ? r.data : EMPTY_STATS))
-      .catch(() => setStats(EMPTY_STATS))
-      .finally(() => setLoading(false));
+    function loadStats() {
+      getStats()
+        .then(r => setStats(r.data && r.data.total > 0 ? r.data : EMPTY_STATS))
+        .catch(() => setStats(EMPTY_STATS))
+        .finally(() => setLoading(false));
+    }
+    loadStats();
+    window.addEventListener('records-changed', loadStats);
+    return () => window.removeEventListener('records-changed', loadStats);
   }, []);
 
   if (loading) {

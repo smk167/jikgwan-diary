@@ -4,7 +4,8 @@
   padding: 1.25rem 0.875rem;
   position: sticky;
   top: 0;
-  height: 100dvh;
+  /* html { zoom: 1.43 } 때문에 100dvh가 화면보다 길어져 푸터가 잘림 → 보이는 화면 높이에 맞춤 */
+  height: calc(100dvh / 1.43);
   overflow-y: auto;
   background: #142755;
   gap: 0;

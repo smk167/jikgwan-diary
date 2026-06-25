@@ -31,12 +31,14 @@ export default function RightPanel() {
   const [quote] = useState(() => QUOTES[Math.floor(Math.random() * QUOTES.length)]);
 
   useEffect(() => {
-    getStats()
-      .then(r => {
-        const s = r.data;
-        if (s && s.total > 0) setStats(s);
-      })
-      .catch(() => {});
+    function loadStats() {
+      getStats()
+        .then(r => setStats(r.data && r.data.total > 0 ? r.data : EMPTY_STATS))
+        .catch(() => {});
+    }
+    loadStats();
+    window.addEventListener('records-changed', loadStats);
+    return () => window.removeEventListener('records-changed', loadStats);
   }, []);
 
   const streakLabel = stats.streak?.type === 'win'
