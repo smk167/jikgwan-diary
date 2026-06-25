@@ -7,6 +7,8 @@ export const CREATE_TABLES = `
     stadium TEXT NOT NULL,
     my_team TEXT NOT NULL,
     result TEXT NOT NULL CHECK(result IN ('승', '패', '무')),
+    score_home INTEGER,
+    score_away INTEGER,
     comment TEXT,
     mood TEXT CHECK(mood IN ('최고', '신남', '보통', '아쉬움', '슬픔', '멘붕')),
     seat TEXT,
@@ -31,4 +33,6 @@ export const MIGRATE_COLUMNS = `
   ALTER TABLE records ADD COLUMN food TEXT;
   ALTER TABLE records ADD COLUMN memo TEXT;
   ALTER TABLE records ADD COLUMN mvp_player TEXT;
+  ALTER TABLE records ADD COLUMN score_home INTEGER;
+  ALTER TABLE records ADD COLUMN score_away INTEGER;
 `;

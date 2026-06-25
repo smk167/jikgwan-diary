@@ -42,12 +42,16 @@ export default function Detail() {
         <div className="detail-header-card">
           <div className="detail-date">{record.date}</div>
           <div className="detail-teams">
-            <span className="detail-team home">{record.home_team}</span>
+            <span className="detail-team home">{record.away_team}</span>
             <div className="detail-result-box">
               <span className={`detail-result ${RESULT_CLASS[record.result]}`}>{record.result}</span>
-              <span className="vs-text">VS</span>
+              {record.score_home != null && record.score_away != null ? (
+                <span className="detail-score">{record.score_away} : {record.score_home}</span>
+              ) : (
+                <span className="vs-text">VS</span>
+              )}
             </div>
-            <span className="detail-team away">{record.away_team}</span>
+            <span className="detail-team away">{record.home_team}</span>
           </div>
           <div className="detail-meta">
             <span>📍 {record.stadium}</span>

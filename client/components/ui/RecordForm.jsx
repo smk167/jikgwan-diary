@@ -5,6 +5,23 @@ import './RecordForm.css';
 
 // [PHOTOS DISABLED] const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
+// 승/패/무 자동 계산 — 원정팀·홈팀·구장·점수·응원팀이 모두 채워져야만 발동 (기준: 응원팀)
+function computeResult({ score_home, score_away, my_team, home_team, away_team, stadium }) {
+  // 필수 항목이 하나라도 비면 자동 판정 안 함
+  if (!away_team || !home_team || !stadium || !my_team) return null;
+  if (score_home === '' || score_away === '') return null;
+  const h = Number(score_home), a = Number(score_away);
+  if (Number.isNaN(h) || Number.isNaN(a)) return null;
+  // 응원팀이 그 경기의 두 팀 중 하나가 아니면 판정 불가
+  let mine, opp;
+  if (my_team === home_team) { mine = h; opp = a; }
+  else if (my_team === away_team) { mine = a; opp = h; }
+  else return null;
+  if (mine > opp) return '승';
+  if (mine < opp) return '패';
+  return '무';
+}
+
 export default function RecordForm({ teams = [], initialValues = {}, initialPhotos = [], isEdit = false, onSubmit, onCancel }) {
   const [form, setForm] = useState({
     date: initialValues.date ?? new Date().toISOString().slice(0, 10),
@@ -13,6 +30,8 @@ export default function RecordForm({ teams = [], initialValues = {}, initialPhot
     stadium: initialValues.stadium ?? '',
     my_team: initialValues.my_team ?? localStorage.getItem('myTeam') ?? '',
     result: initialValues.result ?? '',
+    score_home: initialValues.score_home != null ? String(initialValues.score_home) : '',
+    score_away: initialValues.score_away != null ? String(initialValues.score_away) : '',
     comment: initialValues.comment ?? '',
     memo: initialValues.memo ?? '',
     food: initialValues.food ?? '',
@@ -42,10 +61,22 @@ export default function RecordForm({ teams = [], initialValues = {}, initialPhot
         next.seat = '';
       }
       if (field === 'stadium') next.seat = '';
+      // 필수 항목(원정팀·홈팀·구장·점수·응원팀)이 모두 채워지면 승/패/무 자동 갱신
+      if (['score_home', 'score_away', 'my_team', 'home_team', 'away_team', 'stadium'].includes(field)) {
+        const auto = computeResult(next);
+        if (auto) next.result = auto;
+      }
       return next;
     });
     if (field === 'home_team' || field === 'stadium') setSeatStep({ base: '', sub: '' });
   }
+
+  // 점수 입력: 숫자만, 최대 2자리
+  function setScore(field, raw) {
+    set(field, raw.replace(/[^0-9]/g, '').slice(0, 2));
+  }
+
+  const autoResult = computeResult(form);
 
   // [PHOTOS DISABLED]
   // function addFiles(files) {
@@ -67,7 +98,12 @@ export default function RecordForm({ teams = [], initialValues = {}, initialPhot
     }
     setSubmitting(true);
     try {
-      const submitData = { ...form, weather: form.weather.join(' ') };
+      const submitData = {
+        ...form,
+        weather: form.weather.join(' '),
+        score_home: form.score_home === '' ? null : Number(form.score_home),
+        score_away: form.score_away === '' ? null : Number(form.score_away),
+      };
       if (seatDetail) submitData.seat = form.seat ? `${form.seat} ${seatDetail}` : seatDetail;
       await onSubmit(submitData, [], []); // [PHOTOS DISABLED] was: (submitData, photos, deletedPhotoIds)
     } catch {
@@ -94,18 +130,18 @@ export default function RecordForm({ teams = [], initialValues = {}, initialPhot
       {/* 팀 */}
       <div className="rf-row">
         <div className="rf-field">
-          <label className="rf-label">홈팀 <span className="rf-required">*</span></label>
+          <label className="rf-label">원정팀 <span className="rf-required">*</span></label>
           <div className="rf-select-wrap">
-            <select className="rf-select" value={form.home_team} onChange={e => set('home_team', e.target.value)} required>
+            <select className="rf-select" value={form.away_team} onChange={e => set('away_team', e.target.value)} required>
               <option value="">선택</option>
               {teams.map(t => <option key={t.id} value={t.id}>{t.name || t.id}</option>)}
             </select>
           </div>
         </div>
         <div className="rf-field">
-          <label className="rf-label">원정팀 <span className="rf-required">*</span></label>
+          <label className="rf-label">홈팀 <span className="rf-required">*</span></label>
           <div className="rf-select-wrap">
-            <select className="rf-select" value={form.away_team} onChange={e => set('away_team', e.target.value)} required>
+            <select className="rf-select" value={form.home_team} onChange={e => set('home_team', e.target.value)} required>
               <option value="">선택</option>
               {teams.map(t => <option key={t.id} value={t.id}>{t.name || t.id}</option>)}
             </select>
@@ -169,7 +205,32 @@ export default function RecordForm({ teams = [], initialValues = {}, initialPhot
       {/* 경기 결과 */}
       <div className="rf-field">
         <label className="rf-label">경기 결과 <span className="rf-required">*</span></label>
-        <div className="rf-result-group">
+
+        <div className="rf-result-row">
+          {/* 점수 입력 (원정 : 홈) */}
+          <div className="rf-score-box">
+            <input
+              className="rf-score-input"
+              type="text"
+              inputMode="numeric"
+              value={form.score_away}
+              onChange={e => setScore('score_away', e.target.value)}
+              placeholder="원정"
+              aria-label="원정팀 점수"
+            />
+            <span className="rf-score-colon">:</span>
+            <input
+              className="rf-score-input"
+              type="text"
+              inputMode="numeric"
+              value={form.score_home}
+              onChange={e => setScore('score_home', e.target.value)}
+              placeholder="홈"
+              aria-label="홈팀 점수"
+            />
+          </div>
+
+          <div className="rf-result-group">
           {[
             { v: '승', icon: '😊', cls: 'win' },
             { v: '패', icon: '😔', cls: 'loss' },
@@ -185,7 +246,14 @@ export default function RecordForm({ teams = [], initialValues = {}, initialPhot
               <span>{r.v}</span>
             </button>
           ))}
+          </div>
         </div>
+        {autoResult && (
+          <p className="rf-score-hint">
+            응원팀 <strong>{form.my_team}</strong> 기준 자동 결과: <strong>{autoResult}</strong>
+            {' '}(직접 바꿀 수 있어요)
+          </p>
+        )}
       </div>
 
       {/* 좌석 & 동행 */}

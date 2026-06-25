@@ -33,6 +33,8 @@ export default function Write() {
             stadium: d.stadium,
             my_team: d.my_team,
             result: d.result,
+            score_home: d.score_home,
+            score_away: d.score_away,
             comment: d.comment || '',
             memo: d.memo || '',
             food: d.food || '',

@@ -87,6 +87,13 @@
   opacity: 0.6;
 }
 
+.detail-score {
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
 .detail-meta {
   display: flex;
   justify-content: center;
