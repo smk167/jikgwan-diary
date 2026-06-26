@@ -25,6 +25,7 @@ export default function Signup() {
       const { data } = await signup({ username, password, team: team?.id || null });
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', data.user.username);
+      localStorage.setItem('isAdmin', data.user.isAdmin ? '1' : '');
       if (data.user.team) localStorage.setItem('myTeam', data.user.team);
       navigate('/');
     } catch (err) {

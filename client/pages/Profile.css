@@ -124,6 +124,53 @@
   cursor: not-allowed;
 }
 
+/* 비밀번호 변경 / 관리자 입력 */
+.profile-input {
+  background-color: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text);
+  width: 100%;
+  transition: border-color var(--transition), background-color var(--transition);
+}
+.profile-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: var(--surface);
+}
+
+.profile-msg {
+  font-size: 0.78rem;
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.7rem;
+}
+.profile-msg-ok {
+  color: #16a34a;
+  background: var(--win-bg);
+}
+.profile-msg-error {
+  color: var(--loss);
+  background: var(--loss-bg);
+}
+
+.profile-admin-badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #142755;
+  background: var(--primary);
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  vertical-align: middle;
+}
+
+.profile-admin-card {
+  border: 1.5px solid var(--primary);
+}
+
 .profile-logout-btn {
   align-self: flex-start;
   background: transparent;

@@ -19,6 +19,7 @@ api.interceptors.response.use(
       localStorage.removeItem('token');
       localStorage.removeItem('myTeam');
       localStorage.removeItem('username');
+      localStorage.removeItem('isAdmin');
       location.href = '/login';
     }
     return Promise.reject(error);
@@ -30,6 +31,11 @@ export const signup = (data) => api.post('/api/auth/signup', data);
 export const login = (data) => api.post('/api/auth/login', data);
 export const getMe = () => api.get('/api/auth/me');
 export const updateMyTeam = (team) => api.put('/api/auth/team', { team });
+export const changePassword = (currentPassword, newPassword) =>
+  api.put('/api/auth/password', { currentPassword, newPassword });
+export const adminListUsers = () => api.get('/api/auth/admin/users');
+export const adminResetPassword = (username, newPassword) =>
+  api.post('/api/auth/admin/reset-password', { username, newPassword });
 
 // 기록이 추가/수정/삭제되면 통계 등 다른 화면이 갱신할 수 있도록 알림
 function notifyRecordsChanged() {

@@ -23,6 +23,7 @@ export default function Sidebar({ darkMode, onToggleDark }) {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     localStorage.removeItem('myTeam');
+    localStorage.removeItem('isAdmin');
     window.location.href = '/login';
   }
 

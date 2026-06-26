@@ -18,6 +18,7 @@ export default function Login() {
       const { data } = await login({ username, password });
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', data.user.username);
+      localStorage.setItem('isAdmin', data.user.isAdmin ? '1' : '');
       if (data.user.team) localStorage.setItem('myTeam', data.user.team);
       navigate('/');
     } catch (err) {
