@@ -1,0 +1,164 @@
+.auth {
+  /* html zoom(데스크톱 1.43) 때문에 100dvh가 화면보다 길어져 세로 중앙이 밀림 → 배율 보정 */
+  min-height: calc(100dvh / 1.43);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: var(--bg);
+}
+
+@media (max-width: 900px) {
+  .auth { min-height: calc(100dvh / 1.15); }
+}
+@media (max-width: 768px) {
+  .auth { min-height: 100dvh; }
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth-top {
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+
+.auth-ball {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 0.75rem;
+  background: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  box-shadow: 0 4px 14px rgba(249, 202, 66, 0.45);
+}
+
+.auth-title {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.auth-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.auth-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.auth-input {
+  background-color: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text);
+  width: 100%;
+  transition: border-color var(--transition), background-color var(--transition);
+}
+.auth-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: var(--surface);
+}
+
+.auth-error {
+  font-size: 0.78rem;
+  color: var(--loss);
+  background: var(--loss-bg);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.7rem;
+}
+
+.auth-submit {
+  background: var(--primary);
+  color: #142755;
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  width: 100%;
+  transition: background var(--transition), transform var(--transition);
+}
+.auth-submit:hover:not(:disabled) {
+  background: var(--primary-light);
+  transform: translateY(-1px);
+}
+.auth-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+.auth-switch a {
+  color: var(--accent);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* 회원가입 팀 선택 */
+.auth-team-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.1rem;
+}
+.auth-team-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.4rem;
+}
+.auth-team-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.45rem 0.2rem;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.auth-team-btn:hover {
+  background: var(--surface-2);
+}
+.auth-team-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+.auth-team-name {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--text);
+}

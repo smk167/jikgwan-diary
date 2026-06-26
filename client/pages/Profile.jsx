@@ -1,21 +1,36 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { KBO_TEAMS } from '../data/mockData';
+import { updateMyTeam } from '../api';
 import './Profile.css';
 
 export default function Profile() {
   const navigate = useNavigate();
   const currentId = localStorage.getItem('myTeam');
   const currentTeam = KBO_TEAMS.find(t => t.id === currentId);
+  const username = localStorage.getItem('username');
   const [selected, setSelected] = useState(currentTeam || null);
 
   const changed = selected && selected.id !== currentId;
 
-  function handleSave() {
+  async function handleSave() {
     if (!selected) return;
+    try {
+      await updateMyTeam(selected.id);
+    } catch {
+      // 서버 저장 실패해도 로컬 반영은 진행
+    }
     localStorage.setItem('myTeam', selected.id);
     // 사이드바 등 다른 곳의 팀 표시를 갱신하기 위해 홈으로 이동하며 새로고침
     window.location.href = '/';
+  }
+
+  function handleLogout() {
+    if (!window.confirm('로그아웃 할까요?')) return;
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('myTeam');
+    window.location.href = '/login';
   }
 
   return (
@@ -23,6 +38,16 @@ export default function Profile() {
       <div className="profile-header">
         <h2 className="profile-title">👤 내 정보</h2>
       </div>
+
+      {/* 계정 */}
+      {username && (
+        <div className="profile-card card">
+          <div className="profile-card-label">계정</div>
+          <div className="profile-current">
+            <span className="profile-current-name">@{username}</span>
+          </div>
+        </div>
+      )}
 
       {/* 현재 응원팀 */}
       <div className="profile-card card">
@@ -66,6 +91,10 @@ export default function Profile() {
           </button>
         </div>
       </div>
+
+      <button className="profile-logout-btn" onClick={handleLogout}>
+        로그아웃
+      </button>
     </div>
   );
 }

@@ -4,6 +4,33 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '',
 });
 
+// 모든 요청에 로그인 토큰 첨부
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
+// 401(인증 만료/실패) 시 토큰 정리 후 로그인 화면으로
+api.interceptors.response.use(
+  (res) => res,
+  (error) => {
+    if (error.response?.status === 401 && !location.pathname.startsWith('/login') && !location.pathname.startsWith('/signup')) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('myTeam');
+      localStorage.removeItem('username');
+      location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
+// 인증 API
+export const signup = (data) => api.post('/api/auth/signup', data);
+export const login = (data) => api.post('/api/auth/login', data);
+export const getMe = () => api.get('/api/auth/me');
+export const updateMyTeam = (team) => api.put('/api/auth/team', { team });
+
 // 기록이 추가/수정/삭제되면 통계 등 다른 화면이 갱신할 수 있도록 알림
 function notifyRecordsChanged() {
   window.dispatchEvent(new Event('records-changed'));

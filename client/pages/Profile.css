@@ -124,6 +124,23 @@
   cursor: not-allowed;
 }
 
+.profile-logout-btn {
+  align-self: flex-start;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  transition: all var(--transition);
+}
+.profile-logout-btn:hover {
+  border-color: var(--loss);
+  color: var(--loss);
+  background: var(--loss-bg);
+}
+
 @media (max-width: 520px) {
   .profile-team-grid {
     grid-template-columns: repeat(4, 1fr);

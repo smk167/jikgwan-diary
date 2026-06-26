@@ -1,4 +1,13 @@
 export const CREATE_TABLES = `
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,
+    password_salt TEXT NOT NULL,
+    team TEXT,
+    created_at TEXT DEFAULT (datetime('now', 'localtime'))
+  );
+
   CREATE TABLE IF NOT EXISTS records (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     date TEXT NOT NULL,

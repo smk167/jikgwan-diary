@@ -8,7 +8,8 @@ import Detail from './pages/Detail';
 import Stats from './pages/Stats';
 import Stadiums from './pages/Stadiums';
 import Profile from './pages/Profile';
-import Onboarding from './pages/Onboarding';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 import './App.css';
 
 const HOME_ROUTES = ['/', '/records', '/list'];
@@ -48,19 +49,23 @@ function AppLayout() {
   );
 }
 
+const AUTH_ROUTES = ['/login', '/signup'];
+
 function RouterGuard() {
   const location = useLocation();
-  const myTeam = localStorage.getItem('myTeam');
+  const token = localStorage.getItem('token');
+  const onAuthPage = AUTH_ROUTES.includes(location.pathname);
 
-  if (!myTeam && location.pathname !== '/onboarding') {
-    return <Navigate to="/onboarding" replace />;
+  // 미로그인: 로그인/회원가입만 허용
+  if (!token) {
+    if (location.pathname === '/signup') return <Signup />;
+    if (location.pathname === '/login') return <Login />;
+    return <Navigate to="/login" replace />;
   }
-  if (myTeam && location.pathname === '/onboarding') {
+
+  // 로그인 상태에서 인증 페이지 접근 시 홈으로
+  if (onAuthPage) {
     return <Navigate to="/" replace />;
-  }
-
-  if (location.pathname === '/onboarding') {
-    return <Onboarding />;
   }
 
   return <AppLayout />;

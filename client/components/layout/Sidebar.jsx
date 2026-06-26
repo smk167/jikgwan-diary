@@ -16,6 +16,15 @@ export default function Sidebar({ darkMode, onToggleDark }) {
   const navigate = useNavigate();
   const myTeamId = localStorage.getItem('myTeam');
   const myTeam = KBO_TEAMS.find(t => t.id === myTeamId);
+  const username = localStorage.getItem('username');
+
+  function handleLogout() {
+    if (!window.confirm('로그아웃 할까요?')) return;
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('myTeam');
+    window.location.href = '/login';
+  }
 
   return (
     <aside className="sidebar">
@@ -70,9 +79,15 @@ export default function Sidebar({ darkMode, onToggleDark }) {
           <span className="sidebar-write-plus">+</span>
           새 기록 작성
         </button>
-        <button className="sidebar-dark-btn" onClick={onToggleDark} title="다크모드">
-          {darkMode ? '☀️' : '🌙'}
-        </button>
+        <div className="sidebar-footer-row">
+          <button className="sidebar-dark-btn" onClick={onToggleDark} title="다크모드">
+            {darkMode ? '☀️' : '🌙'}
+          </button>
+          <button className="sidebar-logout-btn" onClick={handleLogout} title="로그아웃">
+            {username && <span className="sidebar-username">{username}</span>}
+            <span>로그아웃</span>
+          </button>
+        </div>
       </div>
     </aside>
   );

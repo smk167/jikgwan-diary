@@ -10,7 +10,7 @@ export async function initDb() {
   await db.executeMultiple(CREATE_TABLES);
 
   // 기존 DB에 새 컬럼 안전하게 추가 (이미 있으면 무시)
-  for (const col of ['food TEXT', 'memo TEXT', 'weather TEXT', 'mvp_player TEXT', 'score_home INTEGER', 'score_away INTEGER']) {
+  for (const col of ['food TEXT', 'memo TEXT', 'weather TEXT', 'mvp_player TEXT', 'score_home INTEGER', 'score_away INTEGER', 'user_id INTEGER']) {
     const [name] = col.split(' ');
     try {
       await db.execute({ sql: `ALTER TABLE records ADD COLUMN ${col}`, args: [] });

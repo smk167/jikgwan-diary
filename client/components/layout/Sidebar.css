@@ -178,16 +178,48 @@
   line-height: 1;
 }
 
+.sidebar-footer-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .sidebar-dark-btn {
   background: rgba(255,255,255,0.07);
   border-radius: var(--radius-sm);
   padding: 0.45rem;
   font-size: 0.95rem;
   transition: background var(--transition);
-  align-self: center;
+  flex-shrink: 0;
 }
 .sidebar-dark-btn:hover {
   background: rgba(255,255,255,0.13);
+}
+
+.sidebar-logout-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  background: rgba(255,255,255,0.07);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #9aaabf;
+  transition: background var(--transition), color var(--transition);
+}
+.sidebar-logout-btn:hover {
+  background: rgba(255,255,255,0.13);
+  color: #d8e2f0;
+}
+.sidebar-username {
+  font-weight: 700;
+  color: #f1f1e6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* 태블릿: zoom 1.15에 맞춰 사이드바 높이 보정 */

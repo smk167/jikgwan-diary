@@ -1,15 +1,21 @@
 import { Hono } from 'hono';
 import db from '../db/client.js';
+import { authMiddleware } from '../auth.js';
 
 const records = new Hono();
+
+// 모든 기록 라우트는 로그인 필요
+records.use('*', authMiddleware);
 
 // 기록 목록
 records.get('/', async (c) => {
   const { team, year } = c.req.query();
+  const userId = c.get('userId');
 
   let query = `SELECT r.* FROM records r`;
   const args = [];
-  const conditions = [];
+  const conditions = [`r.user_id = ?`];
+  args.push(userId);
 
   if (team) {
     conditions.push(`(r.home_team = ? OR r.away_team = ? OR r.my_team = ?)`);
@@ -35,10 +41,11 @@ records.get('/', async (c) => {
 // 기록 상세
 records.get('/:id', async (c) => {
   const id = c.req.param('id');
+  const userId = c.get('userId');
 
   const recordResult = await db.execute({
-    sql: 'SELECT * FROM records WHERE id = ?',
-    args: [id],
+    sql: 'SELECT * FROM records WHERE id = ? AND user_id = ?',
+    args: [id, userId],
   });
 
   if (recordResult.rows.length === 0) {
@@ -61,10 +68,11 @@ records.post('/', async (c) => {
     return c.json({ error: '필수 항목을 입력해주세요.' }, 400);
   }
 
+  const userId = c.get('userId');
   const res = await db.execute({
-    sql: `INSERT INTO records (date, home_team, away_team, stadium, my_team, result, comment, mood, seat, companion, food, memo, weather, mvp_player, score_home, score_away)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    args: [date, home_team, away_team, stadium, my_team, result, comment || null, mood || null, seat || null, companion || null, food || null, memo || null, weather || null, mvp_player || null, score_home ?? null, score_away ?? null],
+    sql: `INSERT INTO records (date, home_team, away_team, stadium, my_team, result, comment, mood, seat, companion, food, memo, weather, mvp_player, score_home, score_away, user_id)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    args: [date, home_team, away_team, stadium, my_team, result, comment || null, mood || null, seat || null, companion || null, food || null, memo || null, weather || null, mvp_player || null, score_home ?? null, score_away ?? null, userId],
   });
 
   return c.json({ id: Number(res.lastInsertRowid) }, 201);
@@ -76,10 +84,11 @@ records.put('/:id', async (c) => {
   const body = await c.req.json();
   const { date, home_team, away_team, stadium, my_team, result, comment, mood, seat, companion, food, memo, weather, mvp_player, score_home, score_away } = body;
 
+  const userId = c.get('userId');
   await db.execute({
     sql: `UPDATE records SET date=?, home_team=?, away_team=?, stadium=?, my_team=?, result=?, comment=?, mood=?, seat=?, companion=?, food=?, memo=?, weather=?, mvp_player=?, score_home=?, score_away=?
-          WHERE id=?`,
-    args: [date, home_team, away_team, stadium, my_team, result, comment || null, mood || null, seat || null, companion || null, food || null, memo || null, weather || null, mvp_player || null, score_home ?? null, score_away ?? null, id],
+          WHERE id=? AND user_id=?`,
+    args: [date, home_team, away_team, stadium, my_team, result, comment || null, mood || null, seat || null, companion || null, food || null, memo || null, weather || null, mvp_player || null, score_home ?? null, score_away ?? null, id, userId],
   });
 
   return c.json({ success: true });
@@ -88,7 +97,8 @@ records.put('/:id', async (c) => {
 // 기록 삭제
 records.delete('/:id', async (c) => {
   const id = c.req.param('id');
-  await db.execute({ sql: 'DELETE FROM records WHERE id = ?', args: [id] });
+  const userId = c.get('userId');
+  await db.execute({ sql: 'DELETE FROM records WHERE id = ? AND user_id = ?', args: [id, userId] });
   return c.json({ success: true });
 });
 

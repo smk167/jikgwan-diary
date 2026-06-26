@@ -1,31 +1,36 @@
 import { Hono } from 'hono';
 import db from '../db/client.js';
+import { authMiddleware } from '../auth.js';
 
 const stats = new Hono();
 
+stats.use('*', authMiddleware);
+
 stats.get('/', async (c) => {
+  const userId = c.get('userId');
   const [total, results, stadiums, teams, yearly, streaks, homeAway] = await Promise.all([
     // 총 직관 횟수
-    db.execute('SELECT COUNT(*) as total FROM records'),
+    db.execute({ sql: 'SELECT COUNT(*) as total FROM records WHERE user_id = ?', args: [userId] }),
 
     // 결과별 횟수
-    db.execute(`SELECT result, COUNT(*) as count FROM records GROUP BY result`),
+    db.execute({ sql: `SELECT result, COUNT(*) as count FROM records WHERE user_id = ? GROUP BY result`, args: [userId] }),
 
     // 구장별 횟수
-    db.execute(`SELECT stadium, COUNT(*) as count FROM records GROUP BY stadium ORDER BY count DESC`),
+    db.execute({ sql: `SELECT stadium, COUNT(*) as count FROM records WHERE user_id = ? GROUP BY stadium ORDER BY count DESC`, args: [userId] }),
 
     // 응원팀별 승률
-    db.execute(`
+    db.execute({ sql: `
       SELECT my_team,
         COUNT(*) as total,
         SUM(CASE WHEN result = '승' THEN 1 ELSE 0 END) as wins
       FROM records
+      WHERE user_id = ?
       GROUP BY my_team
       ORDER BY total DESC
-    `),
+    `, args: [userId] }),
 
     // 연도별 횟수 + 승패무
-    db.execute(`
+    db.execute({ sql: `
       SELECT
         strftime('%Y', date) as year,
         COUNT(*) as count,
@@ -33,20 +38,22 @@ stats.get('/', async (c) => {
         SUM(CASE WHEN result = '패' THEN 1 ELSE 0 END) as losses,
         SUM(CASE WHEN result = '무' THEN 1 ELSE 0 END) as draws
       FROM records
+      WHERE user_id = ?
       GROUP BY year
       ORDER BY year DESC
-    `),
+    `, args: [userId] }),
 
     // 최근 10경기 결과 (연속 기록용)
-    db.execute(`SELECT result FROM records ORDER BY date DESC, created_at DESC LIMIT 10`),
+    db.execute({ sql: `SELECT result FROM records WHERE user_id = ? ORDER BY date DESC, created_at DESC LIMIT 10`, args: [userId] }),
 
     // 홈/원정 경기 횟수 (my_team이 home_team이면 홈)
-    db.execute(`
+    db.execute({ sql: `
       SELECT
         SUM(CASE WHEN my_team = home_team THEN 1 ELSE 0 END) as home_games,
         SUM(CASE WHEN my_team != home_team THEN 1 ELSE 0 END) as away_games
       FROM records
-    `),
+      WHERE user_id = ?
+    `, args: [userId] }),
   ]);
 
   const totalCount = Number(total.rows[0].total);
