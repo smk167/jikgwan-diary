@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { signup } from '../api';
 import { KBO_TEAMS } from '../data/mockData';
+import PasswordInput from '../components/ui/PasswordInput';
 import './Auth.css';
 
 export default function Signup() {
@@ -59,9 +60,8 @@ export default function Signup() {
 
         <div className="auth-field">
           <label className="auth-label">비밀번호</label>
-          <input
+          <PasswordInput
             className="auth-input"
-            type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
             placeholder="6자 이상"
@@ -71,9 +71,8 @@ export default function Signup() {
 
         <div className="auth-field">
           <label className="auth-label">비밀번호 확인</label>
-          <input
+          <PasswordInput
             className="auth-input"
-            type="password"
             value={password2}
             onChange={e => setPassword2(e.target.value)}
             placeholder="비밀번호 재입력"

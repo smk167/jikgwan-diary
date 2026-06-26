@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { KBO_TEAMS } from '../data/mockData';
 import { updateMyTeam, changePassword, adminListUsers, adminResetPassword } from '../api';
+import PasswordInput from '../components/ui/PasswordInput';
 import './Profile.css';
 
 export default function Profile() {
@@ -145,25 +146,22 @@ export default function Profile() {
       <form className="profile-card card" onSubmit={handleChangePassword}>
         <div className="profile-card-label">비밀번호 변경</div>
         {pwMsg && <p className={`profile-msg profile-msg-${pwMsg.type}`}>{pwMsg.text}</p>}
-        <input
+        <PasswordInput
           className="profile-input"
-          type="password"
           placeholder="현재 비밀번호"
           autoComplete="current-password"
           value={pw.current}
           onChange={e => setPw({ ...pw, current: e.target.value })}
         />
-        <input
+        <PasswordInput
           className="profile-input"
-          type="password"
           placeholder="새 비밀번호 (6자 이상)"
           autoComplete="new-password"
           value={pw.next}
           onChange={e => setPw({ ...pw, next: e.target.value })}
         />
-        <input
+        <PasswordInput
           className="profile-input"
-          type="password"
           placeholder="새 비밀번호 확인"
           autoComplete="new-password"
           value={pw.confirm}

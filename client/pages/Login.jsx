@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../api';
+import PasswordInput from '../components/ui/PasswordInput';
 import './Auth.css';
 
 export default function Login() {
@@ -52,9 +53,8 @@ export default function Login() {
 
         <div className="auth-field">
           <label className="auth-label">비밀번호</label>
-          <input
+          <PasswordInput
             className="auth-input"
-            type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
             placeholder="비밀번호"
