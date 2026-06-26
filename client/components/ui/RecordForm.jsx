@@ -1,9 +1,17 @@
-import { useState } from 'react'; // [PHOTOS DISABLED] useRef
+import { useState, useEffect, useRef } from 'react';
 import { KBO_STADIUMS, COMPANION_OPTIONS } from '../../data/mockData';
+import { getGames } from '../../api';
 import SeatMapModal from './SeatMapModal';
 import './RecordForm.css';
 
 // [PHOTOS DISABLED] const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+// 오늘 날짜를 로컬(KST) 기준 YYYY-MM-DD로 반환 (toISOString은 UTC라 새벽에 전날로 밀림)
+function todayLocal() {
+  const d = new Date();
+  const offset = d.getTimezoneOffset() * 60000;
+  return new Date(d.getTime() - offset).toISOString().slice(0, 10);
+}
 
 // 승/패/무 자동 계산 — 원정팀·홈팀·구장·점수·응원팀이 모두 채워져야만 발동 (기준: 응원팀)
 function computeResult({ score_home, score_away, my_team, home_team, away_team, stadium }) {
@@ -24,7 +32,7 @@ function computeResult({ score_home, score_away, my_team, home_team, away_team, 
 
 export default function RecordForm({ teams = [], initialValues = {}, initialPhotos = [], isEdit = false, onSubmit, onCancel }) {
   const [form, setForm] = useState({
-    date: initialValues.date ?? new Date().toISOString().slice(0, 10),
+    date: initialValues.date ?? todayLocal(),
     home_team: initialValues.home_team ?? '',
     away_team: initialValues.away_team ?? '',
     stadium: initialValues.stadium ?? '',
@@ -48,7 +56,49 @@ export default function RecordForm({ teams = [], initialValues = {}, initialPhot
   // const [photos, setPhotos] = useState([]);
   // const [dragOver, setDragOver] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  // 날짜로 KBO 경기 불러오기 상태
+  const [gameLookup, setGameLookup] = useState(null); // { type, away, home }
+  // 수정 모드의 첫 렌더에서는 자동 채움 건너뛰기 (기존 기록 보존)
+  const skipLookup = useRef(isEdit);
   // [PHOTOS DISABLED] const dropRef = useRef(null);
+
+  // 경기 날짜가 바뀌면 그날 내 팀 경기를 찾아 자동 입력
+  useEffect(() => {
+    if (skipLookup.current) { skipLookup.current = false; return; }
+    if (!form.date) return;
+
+    const myTeam = form.my_team || localStorage.getItem('myTeam') || '';
+    let cancelled = false;
+    setGameLookup({ type: 'loading' });
+
+    getGames(form.date)
+      .then(r => {
+        if (cancelled) return;
+        const games = r.data?.games || [];
+        if (games.length === 0) { setGameLookup({ type: 'none' }); return; }
+
+        const g = games.find(x => x.home === myTeam || x.away === myTeam);
+        if (!g) { setGameLookup({ type: 'no-myteam' }); return; }
+
+        setForm(prev => {
+          const next = {
+            ...prev,
+            away_team: g.away,
+            home_team: g.home,
+            stadium: g.stadium || prev.stadium,
+            score_away: g.scoreAway != null ? String(g.scoreAway) : prev.score_away,
+            score_home: g.scoreHome != null ? String(g.scoreHome) : prev.score_home,
+          };
+          const auto = computeResult(next);
+          if (auto) next.result = auto;
+          return next;
+        });
+        setGameLookup({ type: 'found', away: g.away, home: g.home });
+      })
+      .catch(() => { if (!cancelled) setGameLookup({ type: 'error' }); });
+
+    return () => { cancelled = true; };
+  }, [form.date]);
 
   // [PHOTOS DISABLED] const totalPhotoCount = existingPhotos.length + photos.length;
 
@@ -125,6 +175,17 @@ export default function RecordForm({ teams = [], initialValues = {}, initialPhot
           onChange={e => set('date', e.target.value)}
           required
         />
+        {gameLookup && (
+          <p className={`rf-game-lookup rf-game-lookup-${gameLookup.type}`}>
+            {gameLookup.type === 'loading' && '⚾ 경기 정보를 불러오는 중...'}
+            {gameLookup.type === 'found' && (
+              <>✅ {gameLookup.away} vs {gameLookup.home} 경기를 불러왔어요 (팀·점수·구장 자동 입력)</>
+            )}
+            {gameLookup.type === 'no-myteam' && '이 날은 응원팀 경기가 없어요. 직접 입력해 주세요.'}
+            {gameLookup.type === 'none' && '이 날은 KBO 경기가 없어요.'}
+            {gameLookup.type === 'error' && '경기 정보를 불러오지 못했어요. 직접 입력해 주세요.'}
+          </p>
+        )}
       </div>
 
       {/* 팀 */}

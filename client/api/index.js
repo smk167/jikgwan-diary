@@ -36,5 +36,6 @@ export const deleteRecord = async (id) => {
 
 export const getStats = () => api.get('/api/stats');
 export const getKboTeams = () => api.get('/api/kbo/teams');
+export const getGames = (date) => api.get('/api/games', { params: { date } });
 
 export default api;

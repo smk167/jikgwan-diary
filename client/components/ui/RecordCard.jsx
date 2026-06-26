@@ -89,24 +89,30 @@ export default function RecordCard({ record, onDelete }) {
 
         <div className="rc-match">
           <div className="rc-team-block">
-            <div className="rc-team-dot" style={{ background: awayTeam?.color || '#374151' }} />
-            <span className="rc-team-name" style={{ color: awayTeam?.color || 'var(--text)' }}>
-              {record.away_team}
-            </span>
-          </div>
-          <div className="rc-score-area">
-            {record.score_home != null && record.score_away != null ? (
-              <span className="rc-score">{record.score_away} : {record.score_home}</span>
-            ) : (
-              <span className="rc-vs">vs</span>
+            <div className="rc-team-head">
+              <div className="rc-team-dot" style={{ background: awayTeam?.color || '#374151' }} />
+              <span className="rc-team-name" style={{ color: awayTeam?.color || 'var(--text)' }}>
+                {record.away_team}
+              </span>
+            </div>
+            {record.score_away != null && record.score_home != null && (
+              <span className="rc-team-score">{record.score_away}</span>
             )}
+          </div>
+          <div className="rc-result-area">
+            {(record.score_home == null || record.score_away == null) && <span className="rc-vs">vs</span>}
             <ResultBadge result={record.result} />
           </div>
           <div className="rc-team-block rc-team-right">
-            <span className="rc-team-name" style={{ color: homeTeam?.color || 'var(--text)' }}>
-              {record.home_team}
-            </span>
-            <div className="rc-team-dot" style={{ background: homeTeam?.color || '#374151' }} />
+            <div className="rc-team-head">
+              <span className="rc-team-name" style={{ color: homeTeam?.color || 'var(--text)' }}>
+                {record.home_team}
+              </span>
+              <div className="rc-team-dot" style={{ background: homeTeam?.color || '#374151' }} />
+            </div>
+            {record.score_away != null && record.score_home != null && (
+              <span className="rc-team-score">{record.score_home}</span>
+            )}
           </div>
         </div>
 

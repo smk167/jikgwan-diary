@@ -41,7 +41,8 @@
 }
 
 @media (max-width: 768px) {
-  .app-shell {
+  .app-shell,
+  .app-shell.no-right {
     grid-template-columns: 1fr;
     padding-bottom: 72px;
   }

@@ -2,6 +2,16 @@ html {
   zoom: 1.43;
 }
 
+/* 태블릿: 과확대 완화 */
+@media (max-width: 900px) {
+  html { zoom: 1.15; }
+}
+
+/* 모바일: 화면 폭에 맞게 정상 배율로 표시 (zoom 1.43 과확대 제거) */
+@media (max-width: 768px) {
+  html { zoom: 1; }
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;

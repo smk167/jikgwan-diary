@@ -233,6 +233,21 @@
   font-weight: 700;
 }
 
+/* 날짜 기반 경기 자동 불러오기 안내 */
+.rf-game-lookup {
+  font-size: 0.74rem;
+  margin: 0.4rem 0 0;
+  color: var(--text-muted);
+}
+.rf-game-lookup-found {
+  color: var(--win);
+  font-weight: 600;
+}
+.rf-game-lookup-error,
+.rf-game-lookup-no-myteam {
+  color: var(--text-secondary);
+}
+
 .rf-result-group {
   display: flex;
   gap: 0.5rem;

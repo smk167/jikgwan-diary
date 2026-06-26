@@ -9,6 +9,7 @@ import { KBO_TEAMS } from './db/kbo.js';
 import records from './routes/records.js';
 // [PHOTOS DISABLED] import photos from './routes/photos.js';
 import stats from './routes/stats.js';
+import games from './routes/games.js';
 
 const app = new Hono();
 
@@ -24,6 +25,7 @@ app.use('*', cors({
 app.route('/api/records', records);
 // [PHOTOS DISABLED] app.route('/api/photos', photos);
 app.route('/api/stats', stats);
+app.route('/api/games', games);
 
 app.get('/api/kbo/teams', (c) => c.json(KBO_TEAMS));
 

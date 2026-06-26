@@ -190,6 +190,13 @@
   background: rgba(255,255,255,0.13);
 }
 
+/* 태블릿: zoom 1.15에 맞춰 사이드바 높이 보정 */
+@media (max-width: 900px) {
+  .sidebar {
+    height: calc(100dvh / 1.15);
+  }
+}
+
 @media (max-width: 768px) {
   .sidebar {
     display: none;
